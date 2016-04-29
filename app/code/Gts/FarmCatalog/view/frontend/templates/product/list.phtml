@@ -1,0 +1,161 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <?php //echo $block->getToolbarHtml() ?>
+    <?php echo $block->getAdditionalHtml() ?>
+    <?php
+    $viewMode = 'grid';
+    $image = 'category_page_grid';
+    $showDescription = false;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="product-title-bar">
+        <div class="product-type-block">
+            <a href="product.html?farm_type=219">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product01.png');?>">
+            </a>
+            <a href="product.html?farm_type=220">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product02.png');?>">
+            </a>
+            <a href="product.html?farm_type=221">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product03.png');?>">
+            </a>
+        </div>
+        <div class="link-block">
+            <a href="#">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product04.png');?>">
+            </a>
+            <a href="#">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product05.png');?>">
+            </a>
+            <a href="#">
+                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product06.png');?>">
+            </a>
+        </div>
+
+    </div>
+    <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product07.png');?>" width="100%" />
+    <div class="products wrapper <?php /* @escapeNotVerified */ echo $viewMode; ?> products-<?php /* @escapeNotVerified */ echo $viewMode; ?>">
+        <?php $iterator = 1; ?>
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <div class="product-item-info" data-container="product-grid">
+                    <?php
+                    $productImage = $block->getImage($_product, $image);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <strong class="product name product-item-name">
+                        <a class="product-item-link"
+                           href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                            <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                        </a>
+                    </strong>
+                    <?php // Product Image ?>
+                    <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                        <?php echo $productImage->toHtml(); ?>
+                    </a>
+                    <div class="product details product-item-details">
+                        <?php echo $block->getProductDetailsHtml($_product); ?>
+
+                        <div class="product-item-inner">
+
+                            <div class="column1">
+                                <div class="weight">
+                                    <span><?php /* @escapeNotVerified */ echo (int) $_product->getWeight(); ?></span>
+                                    <span>克</span>
+                                </div>
+                                <div class="product-qty-controller">
+                                    <img class="plus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product-plus.png') ?>" >
+                                    <img class="minus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product-minus.png') ?>" >
+                                </div>
+                            </div>
+                            <div class="column2"></div>
+                            <div class="column3">
+                                <div class="obstacle"></div>
+                                <div class="product actions product-item-actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
+                                    <div class="product-qty">
+                                        <span>0</span>
+                                    </div>
+                                    <div class="actions-primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                                        <?php if ($_product->isSaleable()): ?>
+                                            <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                            <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                                <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                                <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+
+                                                <?php echo $block->getBlockHtml('formkey')?>
+                                                <input type="hidden" name="qty" value="0">
+                                                <button type="submit"
+                                                        title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                        class="action tocart primary" disabled>
+                                                    <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product-bucket.png') ?>" />
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <?php if ($_product->getIsSalable()): ?>
+                                                <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                            <?php else: ?>
+                                                <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column4">
+                                <div class="obstacle"></div>
+                                <div class="product-price-block">
+                                    <span class="unit" style="display:none"><?php /* @escapeNotVerified */ echo (int) $_product->getPrice(); ?></span>
+                                    <span class="price"><?php /* @escapeNotVerified */ echo (int) $_product->getPrice(); ?></span>
+                                    <span class="currency-symbol"><?php echo $block->getCurrencySymbol();?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php //echo $block->getToolbarHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

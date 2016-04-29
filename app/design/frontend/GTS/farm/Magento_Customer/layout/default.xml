@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="account-minicart-wrapper">
+            <container name="account-wrapper" htmlTag="div" htmlClass="account-wrapper" before="minicart">
+                <block class="Magento\Customer\Block\Account\Link" name="gts-my-account-link" template="account/link/gts_account.phtml">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">My Account</argument>
+                        <argument name="account_src" xsi:type="string">images/account.png</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Customer\Block\Account\AuthorizationLink" name="gts-authorization-link"
+                       template="account/link/gts_authorization.phtml">
+                    <arguments>
+                        <argument name="login_src" xsi:type="string">images/login.png</argument>
+                        <argument name="logout_src" xsi:type="string">images/logout.png</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <!--<move element="authorization-link" destination="account-wrapper" />
+        <move element="my-account-link" destination="account-wrapper" />-->
+    </body>
+</page>

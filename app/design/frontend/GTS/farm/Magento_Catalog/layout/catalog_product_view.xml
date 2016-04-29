@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="product.content.main" htmlTag="div" htmlClass="product-content-main">
+                <block name="product.breadcrumbs" class="Gts\FarmCatalog\Block\Product\MyBreadcrumbs" template="product/breadcrumbs.phtml"/>
+                <container name="product.content.content" htmlTag="div" htmlClass="product-content-content" />
+                <block name="farm.product.details" class="Gts\FarmCatalog\Block\Product\MyProductDetails" template="product/productdetails.phtml" />
+            </container>
+        </referenceContainer>
+        <move element="product.info.media" destination="product.content.content" before="-"/>
+        <move element="product.info.main" destination="product.content.content" after="product.info.media"/>
+        <!--<move element="product.info.details" destination="product.content.main" after="product.content.content"/>-->
+        <referenceBlock name="product.info.details" remove="true" />
+        <move element="require-cookie" destination="product.content.main" after="product.info.details"/>
+        <referenceBlock name="product.info.review" remove="true"/>
+        <referenceContainer name="product.info.price" remove="true"/>
+        <referenceContainer name="product.info.stock.sku" remove="true"/>
+        <referenceContainer name="product.info.form.content" >
+            <block name="farm.product.info" class="Gts\FarmCatalog\Block\Product\MyProductInfo" template="product/myproductinfo.phtml" before="product.info.addtocart"/>
+            <!--<block name="farm.product.mini.gallery" class="Gts\FarmCatalog\Block\Product\MyMiniProductGallery" template="product/miniproductgallery.phtml" after="product.info.addtocart"/>-->
+        </referenceContainer>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceContainer name="product.info.extrahint" remove="true" />
+    </body>
+</page>

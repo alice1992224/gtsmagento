@@ -1,0 +1,606 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+$checkoutConfig = $block->getCheckoutConfig();
+$quoteItemData = $checkoutConfig['quoteItemData'];
+$quoteData = $checkoutConfig['quoteData'];
+$selectedShippingMethod = $checkoutConfig['selectedShippingMethod'];
+
+$bankList = ["checkout-bank01", "checkout-bank02", "checkout-bank03", "checkout-bank04",
+    "checkout-bank05", "checkout-bank06", "checkout-bank07", "checkout-bank08",
+    "checkout-bank09", "checkout-bank10", "inchoo_stripe", "gts_farm_payment",];
+
+// @codingStandardsIgnoreFile
+?>
+<style>
+    #farm_checkout .card-info {
+        margin-left: 45px;
+        display: none;
+    }
+
+    #farm_checkout .card-info-block {
+        display: flex;
+        padding: 10px;
+        align-items: center;
+    }
+    #farm_checkout .card-info-block > select {
+        flex-basis: 5%;
+        margin-left: 10px;
+        border-color: black;
+    }
+    #farm_checkout .card-info-block > span {
+        margin-left: 10px;
+        flex-basis: 4%;
+    }
+    #farm_checkout .card-info-block > input {
+        flex-basis: 35%;
+        margin-left: 10px;
+        border-color: black;
+    }
+
+    /*
+    #checkout {
+        display: none;
+    }*/
+</style>
+<div id="checkout-loader" data-role="checkout-loader" class="loading-mask">
+    <div class="loader">
+        <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+             alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+             style="position: absolute;">
+    </div>
+</div>
+<div id="farm_checkout">
+    <div class="checkout-content">
+        <div class="checkout-content-title">
+            <span>&#9658; 訂單結帳處理</span>
+            <img src="<?php /* @escapeNotVerified */ echo $this->getViewFileUrl('Gts_FarmCheckout::images/checkout01.png'); ?>"/>
+        </div>
+        <div>
+            <table>
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th>商品</th>
+                    <th>價格</th>
+                    <th>數量</th>
+                    <th>優惠價格</th>
+                    <th>小計</th>
+                    <th></th>
+                </tr>
+                <?php foreach( $quoteItemData as $itemData): ?>
+                    <tr name="<?php /* @escapeNotVerified */ echo $itemData['item_id'];?>">
+                        <td>1</td>
+                        <td class="item-content">
+                            <img src="<?php /* @escapeNotVerified */ echo $itemData['thumbnail'];?>">
+                            <div class="item-name">
+                                <span><?php /* @escapeNotVerified */ echo $itemData['name'];?>&nbsp;</span>
+                                <span>[<?php /* @escapeNotVerified */ echo (int)$itemData['weight'];?>克]</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span>RMB</span>
+                            <span class="item-base-price"><?php /* @escapeNotVerified */ echo (int)$itemData['price'];?></span>
+                        </td>
+                        <td>
+                            <div class="item-qty">
+                                <img class="qty-minus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/product-detail02.png')?>" />
+                                <input type="number" value="<?php /* @escapeNotVerified */ echo (int)$itemData['qty'];?>"/>
+
+                                <img class="qty-plus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/product-detail03.png')?>" />
+                            </div>
+                        </td>
+                        <td>
+                            <span>RMB</span>
+                            <span class="item-discount">00.00</span>
+                        </td>
+                        <td>
+                            <span>RMB</span>
+                            <span class="item-price"><?php /* @escapeNotVerified */ echo (int)$itemData['row_total'];?></span>
+                        </td>
+                        <td class="item-remove">
+                            <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/checkout02.png')?>" />
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr class="total-product-price">
+                    <td colspan="4"></td>
+                    <td>結算金額</td>
+                    <td class="item-total"><?php /* @escapeNotVerified */ echo (int)$quoteData['base_subtotal'];?></td>
+                    <td></td>
+                </tr>
+                <tr class="delivery-area-choice-title">
+                    <td colspan="7">
+                        <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/checkout04.png')?>" />
+                        <span>配送區域選擇</span>
+                    </td>
+                </tr>
+                <tr class="delivery-area-choice">
+                    <td></td>
+                    <td colspan="2" class="delivery-area-select-container">
+                        <select>
+                            <option>廣東省</option>
+                        </select>
+                        <select>
+                            <option>清遠市</option>
+                        </select>
+                        <select>
+                            <option>清新區</option>
+                        </select>
+                        <span>運費依照地區不同，費用將有所差異</span>
+                    </td>
+                    <td></td>
+                    <td>運費</td>
+                    <td><?php /* @escapeNotVerified */ echo (int)$selectedShippingMethod['base_amount'];?></td>
+                    <td></td>
+                </tr>
+                <tr class="total-product-delivery-price">
+                    <td colspan="4"></td>
+                    <td>總計金額</td>
+                    <td class="cart-total"><?php /* @escapeNotVerified */ echo (int)$selectedShippingMethod['base_amount']+(int)$quoteData['base_subtotal'];?></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="payment-info">
+                <div>
+                    <div class="bank-choice-title">
+                        <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/checkout05.png')?>" />
+                        <span>選擇支付方式</span>
+                    </div>
+                    <div class="bank-choice">
+                        <?php foreach($bankList as $bank): ?>
+                            <div class="bank-item">
+                                <input type="radio" name="bank" id="<?php echo "bank?".$bank;?>"/>
+                                <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/'.$bank.'.png')?>"/>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="card-info">
+                        <span>信用卡資訊</span>
+                        <div class="card-info-block">
+                            <span>卡號</span>
+                            <input type="text" id="farm-cc-number" />
+                        </div>
+                        <div class="card-info-block">
+                            <span>到期日</span>
+                            <select id="farm-cc-expiration">
+                                <?php for ($i = 1; $i <= 12; $i++): ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <span>月</span>
+                            <select id="farm-cc-expiration-yr">
+                                <?php for ($i = 2016; $i <= 2026; $i++): ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <span>年</span>
+                        </div>
+                        <div class="card-info-block">
+                            <span>檢查碼</span>
+                            <input type="text" id="farm-cc-cid"/>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="customer-info-title">
+                        <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCheckout::images/checkout06.png')?>" />
+                        <span>購買者</span>
+                        <span>(請務必將資訊填寫正確)</span>
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-info-block">
+                            <span>姓名</span>
+                            <input class="name" type="text" name="lastname" placeholder="姓"/>
+                            <input class="name" type="text" name="firstname" placeholder="名"/>
+                        </div>
+                        <div class="customer-info-block">
+                            <span>手機號碼</span>
+                            <input class="number" type="text" name="telephone" />
+                        </div>
+                        <div class="customer-info-block">
+                            <span>地址</span>
+                            <input class="postal_code" type="text" placeholder="郵遞區號" name="postcode"/>
+                            <input class="address" type="text" name="street"/>
+                        </div>
+                        <div class="customer-info-block">
+                            <span>電子信箱</span>
+                            <input class="email" type="text" name="email"/>
+                        </div>
+                        <hr/>
+                        <div class="receiver-info-title">
+                            <span>收貨者</span>
+                            <span>(請務必將資訊填寫正確)</span>
+                        </div>
+                        <div class="receiver-info-block">
+                            <span>姓名</span>
+                            <input class="name" type="text" name="lastname" placeholder="姓"/>
+                            <input class="name" type="text" name="firstname" placeholder="名"/>
+                        </div>
+                        <div class="receiver-info-block">
+                            <span>手機號碼</span>
+                            <input class="number" type="text" name="telephone" />
+                        </div>
+                        <div class="receiver-info-block">
+                            <span>街道地址</span>
+                            <select name="region" class="delivery-area" disabled>
+                                <option value="廣東省">廣東省</option>
+                            </select>
+                            <select name="city" class="delivery-area" disabled>
+                                <option value="清遠市">清遠市</option>
+                            </select>
+                            <select class="delivery-area" disabled>
+                                <option value="清新區">清新區</option>
+                            </select>
+                        </div>
+                        <div class="receiver-info-block">
+                            <input class="postal_code" type="text" placeholder="郵遞區號" name="postcode"/>
+                            <input class="address" type="text" name="street"/>
+                        </div>
+                        <div class="receiver-info-block">
+                            <span>電子信箱</span>
+                            <input class="email" type="text" name="email"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-order-block">
+                <span>*** 請核對以上信息，確認無誤後點擊送出訂單。送出訂單後無法修改 ***</span>
+                <button>
+                    <span data-bind="i18n: 'Place Order'">送出訂單</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
+
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#checkout": {
+                "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+            }
+        }
+    </script>
+    <script>
+        window.checkoutConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+    </script>
+    <script>
+        require([
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function(url, blockLoader) {
+            blockLoader("<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>");
+            return url.setBaseUrl('<?php /* @escapeNotVerified */ echo $block->getBaseUrl();?>');
+        })
+    </script>
+    <script>
+        require([
+            'jquery',
+            'Magento_Payment/js/model/credit-card-validation/cvv-validator',
+            'Magento_Payment/js/model/credit-card-validation/credit-card-number-validator',
+            'Magento_Payment/js/model/credit-card-validation/expiration-date-validator/expiration-year-validator',
+            'Magento_Payment/js/model/credit-card-validation/expiration-date-validator/expiration-month-validator',
+            'Magento_Payment/js/model/credit-card-validation/credit-card-data',
+            'jquery/ui'
+        ], function($, cvvValidator, creditCardNumberValidator, expirationDateValidator, monthValidator, creditCardData) {
+
+            function credit_card_number_validator(number) {
+                return creditCardNumberValidator(number).isValid;
+            }
+
+            function validate_card_month(month) {
+                return monthValidator(month).isValid;
+            }
+
+            function validate_card_year(year) {
+                return expirationDateValidator(year).isValid;
+            }
+
+            function cvv_validator(cvv) {
+                var maxLength = creditCardData.creditCard ? creditCardData.creditCard.code.size : 3;
+                return cvvValidator(cvv, maxLength).isValid;
+            }
+
+            function check_card_validate(number, month, year, cvv){
+                error = [];
+                if(!credit_card_number_validator(number)){
+                    error.push('Please enter a valid credit card number.');
+                }
+
+                if(!validate_card_month(month)){
+                    error.push('Incorrect credit card expiration month.');
+                }
+
+                if(!validate_card_year(year)){
+                    error.push('Incorrect credit card expiration year.');
+                }
+
+                if(!cvv_validator(cvv)){
+                    error.push('Please enter a valid credit card verification number.');
+                }
+                return error;
+            }
+
+            var ajax_base_url = "/magento/index.php/rest";
+
+            $.ajaxSetup({
+                headers: {
+                    //'Authorization':'Bearer fidc1o3is0tvem9e4p0xtjwusbrafgh1',
+                    'Authorization':'Basic YWxpY2UxOTkyMjI0QGdtYWlsLmNvbTphbGljZTE5OTIyMjQ=',
+                    'Content-Type':'application/json'
+                },
+                error: function( jqXHR, error, responseText){
+                    alert ( "[ "+ this.url +" ] Can't do because: " + responseText );
+                }
+            });
+
+            var targetPaymentMethod = "";
+
+            /*if( window.checkoutConfig.selectedShippingMethod == null ){
+                console.log('aa');
+                var req_data = {
+                    "addressInformation": {
+                        "shipping_address": {},
+                        "shipping_method_code": "farmshipping",
+                        "shipping_carrier_code": "farmshipping"
+                    }
+                };
+
+                $.ajax({
+                    url: ajax_base_url+'/default/V1/carts/mine/shipping-information',
+                    async: false,
+                    type:'POST',
+                    data: JSON.stringify(req_data),
+                    success: function(response) {
+                        console.log('setting shipping method success');
+                    }
+                });
+            }*/
+
+            window.location.href = "#payment";
+
+            $('#farm_checkout .place-order-block > button').click(function(){
+
+                updateBillingShippingAddress();
+                setDefaultBilling();
+                fillInCcData();
+                if(error.length == 0){
+                    $('.payment-methods button.action.checkout#'+targetPaymentMethod).click();
+                } else {
+                    alert(JSON.stringify(error));
+                }
+            });
+
+            $('.bank-choice .bank-item > input[type="radio"]').click(function(){
+
+                $pieces = this.id.split("?");
+                var realRadioButton=$('#'+$pieces[1]);
+                targetPaymentMethod =$pieces[1];
+                if(realRadioButton.size()!=0) {
+                    console.log(this.id+' is chosen');
+                }
+                else{
+                    console.log('no such a credit card type ('+this.id+')');
+                    realRadioButton=$('#checkmo');
+                    console.log('default payment method : checkmo is chosen');
+                }
+                realRadioButton.click();
+                $('.card-info').hide().show('blind', 500);;
+            });
+
+            function plus_minus_qty(action, click_obj){
+
+                var item_qty_input = $(click_obj).siblings('input');
+                var ole_qty = parseInt(item_qty_input.val());
+
+                if( action == 'minus' && ole_qty == 0)
+                    return;
+
+                var new_qty = (action=="plus") ? ole_qty+1 : ole_qty-1;
+
+                // 修改顯示的值
+                item_qty_input.val(new_qty);
+                // 修改產品價格
+                var item_obj = $(click_obj).parents('tr');
+                var item_base_price = parseInt(item_obj.find('.item-base-price').text());
+                var old_item_price = item_obj.find('.item-price').text();
+                var new_item_price = item_base_price*new_qty;
+                item_obj.find('.item-price').text(new_item_price);
+                // 修改結算金額
+                var item_total_obj = $('.checkout-content .item-total');
+                var ole_item_total = parseInt(item_total_obj.text());
+                var new_item_total = ole_item_total - old_item_price + new_item_price;
+                $('.checkout-content .item-total').text(new_item_total);
+
+                // 修改總計金額
+                var delivery_price = 0;
+                if(window.checkoutConfig.selectedShippingMethod != null){
+                    delivery_price = parseInt(window.checkoutConfig.selectedShippingMethod.base_amount);
+                }
+                $('.checkout-content .cart-total').text(new_item_total+delivery_price);
+
+                // 送 API 到後端修改 cart object
+
+                var item_id = item_obj.attr('name');
+                var quote_id = window.checkoutConfig.quoteData['entity_id'];
+
+                var req_data = {
+                    "cartItem":{
+                        "itemId":item_id,
+                        "qty": new_qty,
+                        "quote_id":quote_id
+                    }
+                };
+
+                $.ajax({
+                    url: ajax_base_url+'/V1/carts/mine/items',
+                    async: false,
+                    type:'POST',
+                    data: JSON.stringify(req_data),
+                    success: function(response) {
+                        console.log('update items qty success');
+                    }
+                }); // ajax
+            }
+
+            function updateBillingShippingAddress(){
+                var cusotmer_block_info = $('.checkout-content .customer-info-block');
+                var receiver_block_info = $('.checkout-content .receiver-info-block');
+                var req_data = {
+                    "addressInformation": {
+                        "shipping_address": {
+                            "countryId": "CN",
+                            "region": receiver_block_info.find('select[name="region"] option:selected').val(),
+                            "street": [
+                                receiver_block_info.find('input[name="street"]').val()
+                            ],
+                            "telephone": receiver_block_info.find('input[name="telephone"]').val(),
+                            "postcode": receiver_block_info.find('input[name="postcode"]').val(),
+                            "city": receiver_block_info.find('select[name="city"] option:selected').val(),
+                            "firstname": receiver_block_info.find('input[name="firstname"]').val(),
+                            "lastname": receiver_block_info.find('input[name="lastname"]').val()
+                        },
+                        "billing_address": {
+                            "countryId": "CN",
+                            "region": receiver_block_info.find('select[name="region"] option:selected').val(),
+                            "street": [
+                                cusotmer_block_info.find('input[name="street"]').val()
+                            ],
+                            "telephone": cusotmer_block_info.find('input[name="telephone"]').val(),
+                            "postcode": cusotmer_block_info.find('input[name="postcode"]').val(),
+                            "city": receiver_block_info.find('select[name="city"] option:selected').val(),
+                            "firstname": cusotmer_block_info.find('input[name="firstname"]').val(),
+                            "lastname": cusotmer_block_info.find('input[name="lastname"]').val(),
+                            "email": cusotmer_block_info.find('input[name="email"]').val()
+                        },
+                        "shipping_method_code": "farmshipping",
+                        "shipping_carrier_code": "farmshipping"
+                    }
+                };
+
+                console.log(JSON.stringify(req_data));
+                $.ajax({
+                    url: ajax_base_url+'/default/V1/carts/mine/shipping-information',
+                    async: false,
+                    type:'POST',
+                    data: JSON.stringify(req_data),
+                    success: function(response) {
+                        console.log('set billingAddress and shippingAddress of cart success');
+                        console.log(response);
+                    }
+                });
+            }
+
+            function setDefaultBilling(){
+
+                var cusotmer_block_info = $('.checkout-content .customer-info-block');
+                var receiver_block_info = $('.checkout-content .receiver-info-block');
+
+
+                var req_data = {
+                    "customer": {
+                        "email": window.checkoutConfig.customerData.email,
+                        "firstname": window.checkoutConfig.customerData.firstname,
+                        "lastname": window.checkoutConfig.customerData.lastname,
+                        "website_id": window.checkoutConfig.customerData.website_id,
+                        "addresses": [{
+                            "countryId": "CN",
+                            "region": receiver_block_info.find('select[name="region"] option:selected').val(),
+                            "street": [
+                                cusotmer_block_info.find('input[name="street"]').val()
+                            ],
+                            "telephone": cusotmer_block_info.find('input[name="telephone"]').val(),
+                            "postcode": cusotmer_block_info.find('input[name="postcode"]').val(),
+                            "firstname": cusotmer_block_info.find('input[name="firstname"]').val(),
+                            "lastname": cusotmer_block_info.find('input[name="lastname"]').val(),
+                            "city": receiver_block_info.find('select[name="city"] option:selected').val()
+                        }]
+                    }
+                };
+
+                $.ajax({
+                    url: ajax_base_url+'/V1/customers/me',
+                    async: false,
+                    type:'PUT',
+                    data: JSON.stringify(req_data),
+                    success: function(response) {
+                        console.log('set default billingAddress');
+                        console.log(response);
+                    }
+                });
+            }
+
+            function updateBillingAddress(){
+                var cusotmer_block_info = $('.checkout-content .customer-info-block');
+                var receiver_block_info = $('.checkout-content .receiver-info-block');
+                req_data = {
+                    "address": {
+                        "countryId": "CN",
+                        "region": receiver_block_info.find('select[name="region"] option:selected').val(),
+                        "street": [
+                            cusotmer_block_info.find('input[name="street"]').val()
+                        ],
+                        "telephone": cusotmer_block_info.find('input[name="telephone"]').val(),
+                        "postcode": cusotmer_block_info.find('input[name="postcode"]').val(),
+                        "firstname": cusotmer_block_info.find('input[name="firstname"]').val(),
+                        "lastname": cusotmer_block_info.find('input[name="lastname"]').val(),
+                        "city": receiver_block_info.find('select[name="city"] option:selected').val(),
+                        "email": cusotmer_block_info.find('input[name="email"]').val()
+                    }
+                };
+
+                $.ajax({
+                    url: ajax_base_url+'/V1/carts/mine/billing-address',
+                    async: false,
+                    type:'POST',
+                    data: JSON.stringify(req_data),
+                    success: function(response) {
+                        console.log("billing address Id = "+response);
+                        setDefaultBilling(response);
+
+                    }
+                });
+            }
+
+            function getSelectedCc(){
+                console.log('id='+$('.payment-method._active > .payment-method-title > input').attr('id'));
+                return $('.payment-method._active > .payment-method-title > input').attr('id');
+            }
+
+            function fillInCcData(){
+                var selectedCc = getSelectedCc();
+                var ccNumber = $('#farm-cc-number').val();
+                var ccExpiration = $('#farm-cc-expiration').val();
+                var ccExpirationYr = $('#farm-cc-expiration-yr').val();
+                var ccCid = $('#farm-cc-cid').val();
+                error = check_card_validate(ccNumber, ccExpiration, ccExpirationYr, ccCid);
+                if( error.length == 0){
+                    $('#'+selectedCc+'_cc_number').val(ccNumber).keyup();
+                    $('#'+selectedCc+'_expiration').val(ccExpiration).change();
+                    $('#'+selectedCc+'_expiration_yr').val(ccExpirationYr).change();
+                    $('#'+selectedCc+'_cc_cid').val(ccCid).change();
+                }
+            }
+
+            $('.checkout-content .item-qty .qty-minus').click(function(){
+                plus_minus_qty('minus', this);
+            });
+
+            $('.checkout-content .item-qty .qty-plus').click(function(){
+                plus_minus_qty('plus', this);
+            });
+
+        })
+    </script>
+
+</div>

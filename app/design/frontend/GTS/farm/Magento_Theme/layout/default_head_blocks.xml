@@ -1,0 +1,17 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="js/responsiveslides.min.js" />
+        <link src="js/responsiveslides-basic.js" />
+        <link src="js/fix.js" />
+        <css src="css/responsiveslides.css" />
+        <css src="css/footer.css" />
+        <css src="css/index_page.css" />
+        <css src="css/idea_page.css" />
+        <css src="css/product_page.css" />
+        <css src="css/landowner_page.css" />
+        <css src="css/checkout_page.css" />
+        <css src="css/styles-m.css" />
+        <css src="css/styles-l.css" media="screen and (min-width: 768px)"/>
+        <css src="css/print.css" media="print" />
+    </head>
+</page>

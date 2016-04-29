@@ -1,0 +1,286 @@
+#farm_checkout {
+  background: #eeebe6;
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-bottom: 5%;
+  margin-bottom: 0;
+}
+
+#farm_checkout .checkout-content-title {
+  padding-top: 10px;
+  color: #3D553F;
+  padding-bottom: 10px;
+
+  > img {
+    margin-top: 10px;
+  }
+}
+
+#farm_checkout table {
+  border: 1px solid black;
+}
+
+#farm_checkout th {
+  background: #E9E047;
+  text-align: center;
+}
+#farm_checkout td {
+  vertical-align: middle;
+  text-align: center;
+  background: white;
+  border: 1px solid black
+}
+#farm_checkout .item-content {
+  justify-content: flex-start;
+  display: flex;
+  border-bottom-style: none;
+  border-left-style: none;
+  border-right-style: none;
+}
+#farm_checkout .item-name {
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  width: 100%;
+}
+
+#farm_checkout .item-qty {
+  display: flex;
+  justify-content: center;
+
+  input {
+    border: 1px solid black;
+    width: 15%;
+  }
+
+  img {
+    border: 1px solid black;
+  }
+}
+
+#farm_checkout .item-remove img {
+  width: 20%;
+}
+
+
+#farm_checkout .total-product-price {
+  width: 100%;
+  color: #3D553F;
+  font-weight: bold;
+
+  > td {
+    border-style: none;
+  }
+}
+
+#farm_checkout .delivery-area-choice-title {
+
+  > td {
+    text-align: left;
+    border-bottom-style: none;
+  }
+  img {
+    height: 40px;
+    float: left;
+    margin-right: 10px;
+  }
+  span {
+    line-height: 40px;
+  }
+}
+
+#farm_checkout .delivery-area-choice {
+  color: #3D553F;
+  font-weight: bold;
+
+  > td {
+    border-style: none;
+  }
+}
+
+#farm_checkout .delivery-area-select-container {
+  text-align: left;
+}
+
+#farm_checkout .delivery-area-choice {
+  select {
+    width: 15%;
+  }
+  span {
+    color: #3D553F;
+    font-size: 10pt;
+    margin-left: 10px;
+  }
+}
+
+#farm_checkout .total-product-delivery-price {
+  color: red;
+  font-weight: bold;
+
+  > td {
+    border-left-style: none;
+    border-right-style: none;
+  }
+}
+
+#farm_checkout .payment-info {
+  width: 100%;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-top-style: none;
+  background: white;
+}
+
+#farm_checkout .bank-choice-title {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+
+  > img {
+    height: 40px;
+    margin-right: 10px;
+  }
+}
+
+#farm_checkout .bank-choice {
+  display: flex;
+  flex-flow: row wrap;
+  width: 70%;
+}
+
+#farm_checkout .bank-item {
+  flex-basis: 25%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+
+  img {
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+  input {
+    height: 25px;
+    width: 30px;
+  }
+}
+
+
+#farm_checkout .customer-info-title {
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+
+  > img {
+    width: 40px;
+    margin-right: 10px;
+  }
+}
+
+#farm_checkout .customer-info {
+  padding-left: 50px;
+}
+
+#farm_checkout .customer-info-block {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 10px;
+  align-items: center;
+
+  input {
+    border: 1px solid black;
+  }
+  select {
+    border: 1px solid black;
+  }
+  input.name {
+    flex-basis: 6%;
+    margin-right: 10px;
+  }
+  input.number {
+    flex-basis: 10%;
+  }
+  select.delivery-area{
+    flex-basis: 10%;
+    margin-right: 10px;
+  }
+  input.postal_code {
+    flex-basis: 5%;
+    margin-right: 5px;
+  }
+  input.address {
+    flex-basis: 30%;
+  }
+  input.email {
+    flex-basis: 35%;
+  }
+  span:first-child {
+    flex-basis: 5%;
+  }
+  span {
+    flex-basis: 6%;
+    margin-right: 10px;
+  }
+}
+
+#farm_checkout .receiver-info-block {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 10px;
+  align-items: center;
+
+  input {
+    border: 1px solid black;
+  }
+  input.name {
+    flex-basis: 6%;
+    margin-right: 10px;
+  }
+  input.number {
+    flex-basis: 10%;
+  }
+  select {
+    border: 1px solid black;
+  }
+  input.postal_code {
+    margin-left: 5%;
+    margin-right: 5px;
+    flex-basis: 5%;
+  }
+  input.address {
+    flex-basis: 30%;
+  }
+  select.delivery-area{
+    flex-basis: 10%;
+    margin-right: 10px;
+    opacity: 1;
+  }
+  input.email {
+    flex-basis: 35%;
+  }
+  span {
+    flex-basis: 5%;
+  }
+}
+
+
+#farm_checkout .place-order-block {
+  background: #E9E047;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+
+  > span {
+    display: block;
+    width: 90%;
+    text-align: center;
+    color: #3D553F;
+  }
+  > button {
+    width: 10%;
+    background: #3D553F;
+    color: white;
+  }
+}

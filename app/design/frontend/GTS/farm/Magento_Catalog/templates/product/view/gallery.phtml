@@ -1,0 +1,94 @@
+
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/*
+   array(2) {
+      [0]=>
+      array(16) {
+        ["value_id"]=>
+        string(4) "3427"
+        ["file"]=>
+        string(15) "/t/o/tomato.png"
+        ["media_type"]=>
+        string(5) "image"
+        ["entity_id"]=>
+        string(4) "2051"
+        ["label"]=>
+        string(0) ""
+        ["position"]=>
+        string(1) "1"
+        ["disabled"]=>
+        string(1) "0"
+        ["label_default"]=>
+        NULL
+        ["position_default"]=>
+        string(1) "1"
+        ["disabled_default"]=>
+        string(1) "0"
+        ["url"]=>
+        string(68) "http://192.168.0.14/magento/pub/media/catalog/product/t/o/tomato.png"
+        ["id"]=>
+        string(4) "3427"
+        ["path"]=>
+        string(62) "/var/www/html/magento/pub/media/catalog/product/t/o/tomato.png"
+        ["small_image_url"]=>
+        string(125) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/thumbnail/90x90/beff4985b56e3afdbeabfc89641a4582/t/o/tomato.png"
+        ["medium_image_url"]=>
+        string(123) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/image/700x700/e9c3970ab036de70892d86c6d221abfe/t/o/tomato.png"
+        ["large_image_url"]=>
+        string(115) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/image/e9c3970ab036de70892d86c6d221abfe/t/o/tomato.png"
+      }
+      [1]=>
+      array(16) {
+        ["value_id"]=>
+        string(4) "3438"
+        ["file"]=>
+        string(17) "/t/o/tomato_1.png"
+        ["media_type"]=>
+        string(5) "image"
+        ["entity_id"]=>
+        string(4) "2051"
+        ["label"]=>
+        string(0) ""
+        ["position"]=>
+        string(1) "2"
+        ["disabled"]=>
+        string(1) "0"
+        ["label_default"]=>
+        NULL
+        ["position_default"]=>
+        string(1) "2"
+        ["disabled_default"]=>
+        string(1) "0"
+        ["url"]=>
+        string(70) "http://192.168.0.14/magento/pub/media/catalog/product/t/o/tomato_1.png"
+        ["id"]=>
+        string(4) "3438"
+        ["path"]=>
+        string(64) "/var/www/html/magento/pub/media/catalog/product/t/o/tomato_1.png"
+        ["small_image_url"]=>
+        string(127) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/thumbnail/90x90/beff4985b56e3afdbeabfc89641a4582/t/o/tomato_1.png"
+        ["medium_image_url"]=>
+        string(125) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/image/700x700/e9c3970ab036de70892d86c6d221abfe/t/o/tomato_1.png"
+        ["large_image_url"]=>
+        string(117) "http://192.168.0.14/magento/pub/media/catalog/product/cache/1/image/e9c3970ab036de70892d86c6d221abfe/t/o/tomato_1.png"
+      }
+    }
+ */
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+
+$imgInfo = $block->getGalleryImages()->toArray();
+
+?>
+<img src="<?php /* @escapeNotVerified */ echo $imgInfo['items'][1]['url']; ?>" />

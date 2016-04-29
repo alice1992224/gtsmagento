@@ -1,0 +1,54 @@
+.landowner-title-bar {
+  background: #677341;
+  padding: 2%;
+  display: flex;
+  justify-content: flex-end;
+  a {
+    margin-left: 1%;
+  }
+}
+
+.question-block {
+  display: flex;
+  padding: 20px;
+  .what-landowner, .why-activate {
+    margin-left: 10px;
+    margin-right: 10px;
+    background: #ECF1F5;
+    width: 50%;
+    border: solid;
+    border-width: 1px;
+    border-color: gray;
+    div {
+      display: flex;
+      justify-content: center;
+      padding: 2%;
+    }
+    > a {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .landowner-title-bar {
+    display: block;
+    img {
+      width: 19%;
+    }
+    img.title-selected-img {
+      width: 55%;
+    }
+  }
+
+  .question-block {
+    flex-direction: column;
+    padding: 0;
+    .what-landowner, .why-activate {
+      width: 94%;
+      margin: 3%;
+    }
+  }
+}
+
+

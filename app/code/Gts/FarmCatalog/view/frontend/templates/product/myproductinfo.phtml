@@ -1,0 +1,77 @@
+
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+
+$productInfo = $block->getFarmProductInfo();
+
+?>
+<div class="farm-product-info">
+    <div>
+        <h1><?php echo $productInfo['name'];?></h1>
+    </div>
+    <hr class="product-title-hr"/>
+    <div>
+        <?php foreach($productInfo['cert_mark'] as $cert):?>
+            <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/'.$cert)?>" />
+        <?php endforeach; ?>
+    </div>
+    <div>
+        <span>規格 / <?php echo (int)$productInfo['weight'];?> 克</span>
+    </div>
+    <div>
+        <span>定價 / <?php echo (int)$productInfo['price'];?> / 特價</span>
+    </div>
+    <div>
+        <span>產地 / <?php echo $productInfo['place_of_origin'];?></span>
+    </div>
+    <div>
+        <span>配送 / <?php echo $productInfo['delivery_area'];?></span>
+    </div>
+    <div class="field qty">
+        <div class="control">
+            <span>數量 / </span>
+            <img class="qty-minus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product-detail02.png')?>" />
+            <input type="number"
+                   name="qty"
+                   id="qty"
+                   maxlength="12"
+                   value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
+                   title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
+                   data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+            />
+
+            <img class="qty-plus" src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('Gts_FarmCatalog::images/product-detail03.png')?>" />
+        </div>
+    </div>
+    <hr />
+</div>
+
+<script>
+    require(['jquery'], function ($) {
+        'use strict';
+
+        $('.field.qty > .control > .qty-minus').click(function(){
+            var cur_qty = parseInt($(this).siblings('input').val());
+            if( cur_qty > 0){
+                $(this).siblings('input').val(--cur_qty);
+            }
+        });
+
+        $('.field.qty > .control > .qty-plus').click(function(){
+            var cur_qty = parseInt($(this).siblings('input').val());
+            $(this).siblings('input').val(++cur_qty);
+        });
+    });
+
+</script>

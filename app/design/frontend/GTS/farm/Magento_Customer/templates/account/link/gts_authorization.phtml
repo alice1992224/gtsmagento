@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Customer\Block\Account\AuthorizationLink */
+$dataPostParam = '';
+$imageSrc = null;
+if ($block->isLoggedIn()) {
+    $dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
+    $imageSrc = $block->getViewFileUrl($block->getLogoutSrc());
+} else {
+    $imageSrc = $block->getViewFileUrl($block->getLoginSrc());
+}
+?>
+
+<a <?php /* @escapeNotVerified */ echo $block->getLinkAttributes(); ?><?php /* @escapeNotVerified */ echo $dataPostParam; ?>>
+    <img src="<?php /* @escapeNotVerified */ echo $imageSrc ?>"/>
+</a>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Product Service -->
+    <route url="/V1/calculator/add/:num1/:num2" method="GET">
+        <service class="Gts\FarmRest\Api\CalculatorInterface" method="add"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/farm/products" method="GET">
+        <service class="Gts\FarmRest\Api\FarmProductRepositoryInterface" method="getFarmList"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/farm/products/:productId" method="GET">
+        <service class="Gts\FarmRest\Api\FarmProductRepositoryInterface" method="getFarmListById"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/farm/wishlist/mine" method="GET">
+        <service class="Gts\FarmRest\Api\FarmWishlistInterface" method="getFarmWishlist"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/farm/wishlist/mine/:productId" method="POST">
+        <service class="Gts\FarmRest\Api\FarmWishlistInterface" method="addFarmNewItem"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/farm/wishlist/mine/:wishlistItemId" method="DELETE">
+        <service class="Gts\FarmRest\Api\FarmWishlistInterface" method="deleteFarmItem"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+</routes>

@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+error_log('aaaaabbb');
+$quoteItemData = $block->myFunction();
+$bankList = ["checkout-bank01", "checkout-bank02", "checkout-bank03", "checkout-bank04",
+    "checkout-bank05", "checkout-bank06", "checkout-bank07", "checkout-bank08",
+    "checkout-bank09", "checkout-bank10", "checkout-bank11", "checkout-bank12",];
+
+// @codingStandardsIgnoreFile
+?>
+<style>
+    /*
+    #checkout {
+        display: none;
+    }
+    */
+</style>
+
+<div id="checkout" data-bind="scope:'test'" class="checkout-container">
+
+
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#checkout": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "test": {
+                            "template" : "Gts_FarmTest/test"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        window.checkoutConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+    </script>
+    <script>
+        require([
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function(url, blockLoader) {
+            blockLoader("<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>");
+            return url.setBaseUrl('<?php /* @escapeNotVerified */ echo $block->getBaseUrl();?>');
+        })
+    </script>
+    <script>
+        require([
+            'jquery'
+        ], function($) {
+            //window.location.href = "#payment";
+            $('#farm_checkout .place-order-block > button').click(function(){
+
+                console.log('ahahha');
+                //$('.action.primary.checkout').click();
+            });
+
+        })
+    </script>
+</div>
